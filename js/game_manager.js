@@ -60,6 +60,8 @@ GameManager.prototype.setup = function () {
     this.updatescore();
   }
 
+  setPracticeButton(this.serialize())
+
   // Update the actuator
   this.actuate();
 };
@@ -201,6 +203,15 @@ function arrayToString(arr) {
 }
 
 
+function setPracticeButton(serialized) {
+  const practiceButton = document.getElementsByClassName('practice-button')[0]
+  const splitUrl = window.location.href.split('/')
+  if (!!practiceButton) {
+    practiceButton.href = `./practice${splitUrl[splitUrl.length-1] == ('index.html') ? "/index.html" : ""}?code=${arrayToString(serialized.grid.cells)}`
+  }
+}
+
+
 // Move tiles on the grid in the specified direction
 GameManager.prototype.move = function (direction) {
   // 0: up, 1: right, 2: down, 3: left
@@ -218,6 +229,7 @@ GameManager.prototype.move = function (direction) {
   this.prepareTiles();
   var spawnlocations=[];
 
+  
   // Traverse the grid in the right direction and move tiles
   traversals.x.forEach(function (x) {
     traversals.y.forEach(function (y) {
@@ -250,6 +262,8 @@ GameManager.prototype.move = function (direction) {
     });
   });
 
+  
+
   if (moved) {
     //console.log(cells);
     //alert(spawnlocations);
@@ -257,12 +271,7 @@ GameManager.prototype.move = function (direction) {
     this.storageManager.setGameState(this.serialize());
 
     this.addRandomTile(spawnlocations);
-    const serialized = this.serialize()
-    const practiceButton = document.getElementsByClassName('practice-button')[0]
-    const splitUrl = window.location.href.split('/')
-    if (!!practiceButton) {
-      practiceButton.href = `./practice${splitUrl[splitUrl.length-1] == ('index.html') ? "/index.html" : ""}?code=${arrayToString(serialized.grid.cells)}`
-    }
+    setPracticeButton(this.serialize())
     
     
     this.updatescore();
