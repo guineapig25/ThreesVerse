@@ -478,7 +478,11 @@ hr {
   animation: pop-large 200ms ease 100ms;
   animation-fill-mode: backwards; }
 
-.restart-button {
+  .practice-button {
+    margin-left: 10px;
+  }
+
+.restart-button, .practice-button {
   display: inline-block;
   background: #8b95a6;
   border-radius: 6px;
@@ -526,10 +530,13 @@ hr {
     box-sizing: border-box;
     line-height: 1.65; }
 
-  .restart-button {
+    
+
+  .restart-button, .practice-button {
     display: block;
     box-sizing: border-box;
     margin-top: 25px; }
+    
 
   .game-container {
     margin-top: 25px;

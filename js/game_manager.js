@@ -174,6 +174,33 @@ GameManager.prototype.moveTile = function (tile, cell) {
   tile.updatePosition(cell);
 };
 
+
+function getBaseLog(x, y) {
+  return Math.log(y) / Math.log(x);
+} 
+
+function numToText(num) {
+  if(num < 3) return num
+  num = getBaseLog(2,num/3)+3
+  if(num >= 10) num = String.fromCharCode(87 + num);
+  return num
+}
+
+function arrayToString(arr) {
+  let tempString = "";
+  arr.forEach((miniArray) => {
+    miniArray.forEach((element)=>{
+      if(element === null) {
+        tempString += "0"
+      } else {
+        tempString += numToText(element.value)
+      }
+    })
+  })
+  return tempString
+}
+
+
 // Move tiles on the grid in the specified direction
 GameManager.prototype.move = function (direction) {
   // 0: up, 1: right, 2: down, 3: left
@@ -226,8 +253,18 @@ GameManager.prototype.move = function (direction) {
   if (moved) {
     //console.log(cells);
     //alert(spawnlocations);
+    
     this.storageManager.setGameState(this.serialize());
+
     this.addRandomTile(spawnlocations);
+    const serialized = this.serialize()
+    const practiceButton = document.getElementsByClassName('practice-button')[0]
+    const splitUrl = window.location.href.split('/')
+    if (!!practiceButton) {
+      practiceButton.href = `./practice${splitUrl[splitUrl.length-1] == ('index.html') ? "/index.html" : ""}?code=${arrayToString(serialized.grid.cells)}`
+    }
+    
+    
     this.updatescore();
 
     if (!this.movesAvailable()) {
