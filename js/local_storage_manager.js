@@ -19,11 +19,20 @@ window.fakeStorage = {
 };
 
 function LocalStorageManager() {
-  this.bestScoreKey     = "bestScore";
-  this.gameStateKey     = "gameState";
-  this.nextkey="next";
-  this.deckkey="deck";
-  this.giantkey="giant";
+  if(typeof(code) === "undefined") {
+    this.bestScoreKey     = "bestScore";
+    this.gameStateKey     = "gameState";
+    this.nextkey="next";
+    this.deckkey="deck";
+    this.giantkey="giant";
+  } else {
+    this.bestScoreKey     = "pbestScore";
+    this.gameStateKey     = "pgameState";
+    this.nextkey="pnext";
+    this.deckkey="pdeck";
+    this.giantkey="pgiant";
+  }
+  
 
   var supported = this.localStorageSupported();
   this.storage = supported ? window.localStorage : window.fakeStorage;

@@ -34,7 +34,7 @@ GameManager.prototype.setup = function () {
   var previousState = this.storageManager.getGameState();
 
   // Reload the game from a previous game if present
-  if (previousState) {
+  if (previousState && typeof(code) === "undefined") {
     this.grid        = new Grid(previousState.grid.size,
                                 previousState.grid.cells); // Reload grid
     this.score       = previousState.score;
@@ -50,7 +50,12 @@ GameManager.prototype.setup = function () {
     
 
     // Add the initial tiles
-    this.addStartTiles();
+    if(typeof(code) !== "undefined") {
+      this.addPracticeTiles();
+    } else {
+      this.addStartTiles();
+    }
+    
     //Update score
     this.updatescore();
   }
@@ -63,6 +68,12 @@ GameManager.prototype.setup = function () {
 GameManager.prototype.addStartTiles = function () {
   for (var i = 0; i < this.startTiles; i++) {
     this.addRandomTile([this.grid.randomAvailableCell()],true);
+  }
+};
+
+GameManager.prototype.addPracticeTiles = function () {
+  for (var i = 0; i < 16; i++) {
+    this.addSetTile(Math.floor(i/4),i%4,code[i]);
   }
 };
 
@@ -84,8 +95,26 @@ GameManager.prototype.addRandomTile = function (spawnlocations,nogiant) {
     var value = this.storageManager.getnext();
     value=value[Math.floor(Math.random()*value.length)];
     var tile = new Tile(cell,value);
+    console.log(tile)
     this.grid.insertTile(tile);
     this.storageManager.draw(nogiant);
+  }
+};
+
+function getTileFromNum(num) {
+  if(num < 3) return parseInt(num)
+  return 3*(2^num-3)
+}
+
+GameManager.prototype.addSetTile = function (x,y,val) {
+  console.log(x,y)
+  if (val != 0) {
+    var value = getTileFromNum(val)
+    var tile = new Tile(1,value);
+    tile.x = x
+    tile.y = y
+    console.log(tile)
+    this.grid.insertTile(tile);
   }
 };
 
