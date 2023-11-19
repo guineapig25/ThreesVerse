@@ -95,7 +95,6 @@ GameManager.prototype.addRandomTile = function (spawnlocations,nogiant) {
     var value = this.storageManager.getnext();
     value=value[Math.floor(Math.random()*value.length)];
     var tile = new Tile(cell,value);
-    console.log(tile)
     this.grid.insertTile(tile);
     this.storageManager.draw(nogiant);
   }
@@ -108,13 +107,11 @@ function getTileFromNum(num) {
 }
 
 GameManager.prototype.addSetTile = function (x,y,val) {
-  console.log(x,y)
   if (val != 0) {
     var value = getTileFromNum(val)
     var tile = new Tile(1,value);
     tile.x = x
     tile.y = y
-    console.log(tile)
     this.grid.insertTile(tile);
   }
 };
