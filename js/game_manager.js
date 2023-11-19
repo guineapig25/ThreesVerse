@@ -103,7 +103,8 @@ GameManager.prototype.addRandomTile = function (spawnlocations,nogiant) {
 
 function getTileFromNum(num) {
   if(num < 3) return parseInt(num)
-  return 3*(2^num-3)
+  if(num/1 != num) num = num.charCodeAt(0) - 87
+  return 3*Math.pow(2,num-3)
 }
 
 GameManager.prototype.addSetTile = function (x,y,val) {
